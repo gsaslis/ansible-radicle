@@ -1,0 +1,12 @@
+[Unit]
+Description=radicle-node
+After=syslog.target network.target
+
+[Service]
+Environment="RAD_HOME=/home/radicle/.radicle" "RUST_LOG=debug" "RUST_BACKTRACE=1" "RAD_PASSPHRASE={{ rad_passphrase }}"
+ExecStart=/home/radicle/.radicle/bin/radicle-node --listen 0.0.0.0:{{ radicle_node_port }} --force
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

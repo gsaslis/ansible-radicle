@@ -1,0 +1,24 @@
+---
+- name: Base setup
+  hosts: radicle
+  become: true
+  vars_files:
+    - ../vars/secret_vars.yml
+  roles:
+    - oefenweb.locales
+  tasks:
+    - name: Run the equivalent of "apt-get update" as a separate step
+      apt:
+        update_cache: yes
+    - name: Create radicle user with access by existing ssh key
+      ansible.builtin.user:
+        name: radicle
+        generate_ssh_key: no
+        shell: /bin/bash
+        create_home: true
+        state: present
+    - name: Set authorized key taken from file
+      ansible.posix.authorized_key:
+        user: radicle
+        state: present
+        key: "{{ lookup('file', ssh_public_key) }}"

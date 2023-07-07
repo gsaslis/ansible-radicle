@@ -1,0 +1,73 @@
+
+- name: Install radicle
+  hosts: radicle
+  gather_facts: no
+  tasks:
+    - name: Fetch radicle installation script
+      get_url:
+        url: https://radicle.xyz/install
+        dest: /tmp/radicle_install.sh
+        mode: '0755'
+
+    - name: Install latest radicle binaries
+      command: /tmp/radicle_install.sh
+
+- name: Install radicle services
+  hosts: radicle
+  gather_facts: yes
+  become: true
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/secret_vars.yml
+  tasks:
+#### radicle-node
+
+    - name: Create the radicle-node systemd unit file from the template
+      template:
+        src: ../templates/radicle-node.service.j2
+        dest: /usr/lib/systemd/system/radicle-node.service
+        owner: radicle
+        group: radicle
+        mode: '0644'
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable radicle-node service
+      systemd:
+        name: radicle-node
+        enabled: yes
+
+    - name: Start radicle-node service
+      systemd:
+        name: radicle-node
+        state: started
+
+#### radicle-httpd
+
+    - name: Create the radicle-httpd systemd unit file from the template
+      template:
+        src: ../templates/radicle-httpd.service.j2
+        dest: /usr/lib/systemd/system/radicle-httpd.service
+        owner: radicle
+        group: radicle
+        mode: '0644'
+
+    - name: Reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: Enable radicle-httpd service
+      systemd:
+        name: radicle-httpd
+        enabled: yes
+
+    - name: Start radicle-httpd service
+      systemd:
+        name: radicle-httpd
+        state: started
+
+  roles:
+    - caddy_ansible.caddy_ansible
+

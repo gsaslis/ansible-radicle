@@ -1,0 +1,10 @@
+- name: A little more secure
+  hosts: radicle
+  become: true
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/secret_vars.yml
+  roles:
+    - geerlingguy.security
+    - geerlingguy.firewall
+
