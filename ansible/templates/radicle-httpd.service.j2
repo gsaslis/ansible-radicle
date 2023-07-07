@@ -5,6 +5,7 @@ After=syslog.target network.target
 [Service]
 Environment="RAD_HOME=/home/radicle/.radicle" "RUST_LOG=debug" "RUST_BACKTRACE=1" "RAD_PASSPHRASE={{ rad_passphrase }}"
 ExecStart=/home/radicle/.radicle/bin/radicle-httpd --listen 127.0.0.1:{{ radicle_httpd_port }}
+User=radicle
 Restart=always
 RestartSec=5
 
