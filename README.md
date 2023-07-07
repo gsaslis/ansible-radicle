@@ -1,6 +1,6 @@
 # An Ansible Playbook to Deploy Radicle
 
-This directory provides the necessary steps that deploy a Radicle Seed Node, using Ansible, and running the necessary services with `docker-compose`.
+This directory provides the necessary steps that deploy a Radicle Seed Node (together with its accompanying HTTP API), using Ansible, and running the necessary system services suitable for an "always on" deployment of Radicle.
 
 ## Requirements
 
