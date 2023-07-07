@@ -1,4 +1,4 @@
-# Configuration Management through Ansible 
+# An Ansible Playbook to Deploy Radicle
 
 This directory provides the necessary steps that deploy a Radicle Seed Node, using Ansible, and running the necessary services with `docker-compose`.
 
