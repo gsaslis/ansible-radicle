@@ -6,6 +6,8 @@ After=syslog.target network.target
 Environment="RAD_HOME=/home/radicle/.radicle" "RUST_LOG=debug" "RUST_BACKTRACE=1" "RAD_PASSPHRASE={{ rad_passphrase }}"
 ExecStart=/home/radicle/.radicle/bin/radicle-node --listen 0.0.0.0:{{ radicle_node_port }} --force
 User=radicle
+StandardOutput=append:/var/log/radicle-node.log
+StandardError=append:/var/log/radicle-node.log
 Restart=always
 RestartSec=5
 
