@@ -33,6 +33,8 @@ rad_passphrase: "never_commit_sensitive_values"
 rad_domain: your_fully_qualified_domain_name
 radicle_node_port: 7777
 radicle_httpd_port: 8888
+# the options to pass to the `radicle-node` binary, to define behaviour of your seed node, e.g.
+radicle_node_options: --force --tracking-policy block --tracking-scope all
 ssh_public_key: <the_path_to_the_public_key_that_should_be_added_to_the_authorized_keys_of_the_newly_created_user> # `<path_to_public_key> from step 3
 firewall_allowed_tcp_ports:
   - "22" # (ssh port - better use another value) 

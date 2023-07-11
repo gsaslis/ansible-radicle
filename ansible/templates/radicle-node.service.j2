@@ -4,7 +4,7 @@ After=syslog.target network.target
 
 [Service]
 Environment="RAD_HOME=/home/radicle/.radicle" "RUST_LOG=debug" "RUST_BACKTRACE=1" "RAD_PASSPHRASE={{ rad_passphrase }}"
-ExecStart=/home/radicle/.radicle/bin/radicle-node --listen 0.0.0.0:{{ radicle_node_port }} --force
+ExecStart=/home/radicle/.radicle/bin/radicle-node --listen 0.0.0.0:{{ radicle_node_port }} {{ radicle_node_options }}
 User=radicle
 StandardOutput=append:/var/log/radicle-node.log
 StandardError=append:/var/log/radicle-node.log
