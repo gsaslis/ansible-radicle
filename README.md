@@ -30,7 +30,15 @@ ansible_python_interpreter=/usr/bin/python3
 ```yaml
 # secret_vars.yaml
 rad_passphrase: "never_commit_sensitive_values"
-rad_domain: your_fully_qualified_domain_name
+rad_domain: your.radicle.domain.here
+concourse_domain: your.concourse.domain.here
+concourse_port: 8080
+concourse_postgres_user: your_db_username
+concourse_postgres_password: your_db_password
+concourse_user: your_username
+concourse_password: your_password
+# generate below with e.g. `openssl rand -hex 32`
+concourse_client_secret: some_long_secret
 radicle_node_port: 7777
 radicle_httpd_port: 8888
 # the options to pass to the `radicle-node` binary, to define behaviour of your seed node, e.g.

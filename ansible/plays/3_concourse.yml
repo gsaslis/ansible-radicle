@@ -1,0 +1,30 @@
+
+- name: Install concourse
+  hosts: radicle
+  gather_facts: no
+  tasks:
+    - name: Create concourse directory
+      file:
+        path: /home/radicle/concourse
+        state: directory
+        owner: radicle
+        group: radicle
+        mode: 0755
+
+    - name: Install concourse docker-compose.yml script
+      template:
+        src: ../templates/docker-compose.yml.j2
+        dest: /home/radicle/concourse/docker-compose.yml
+        owner: radicle
+        group: radicle
+        mode: '0644'
+
+- name: Set up reverse proxy services
+  hosts: radicle
+  gather_facts: yes
+  become: true
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/secret_vars.yml
+  roles:
+    - caddy_ansible.caddy_ansible

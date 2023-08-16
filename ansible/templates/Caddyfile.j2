@@ -1,3 +1,7 @@
 {{ rad_domain }} {
     reverse_proxy localhost:{{ radicle_httpd_port }}
 }
+
+{{ concourse_domain }} {
+    reverse_proxy localhost:{{ concourse_port }}
+}
