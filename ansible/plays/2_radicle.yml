@@ -22,6 +22,14 @@
   tasks:
 #### radicle-node
 
+    - name: Create the radicle-node config file from the template
+      template:
+        src: ../templates/config.json.j2
+        dest: /home/radicle/.radicle/config.json
+        owner: radicle
+        group: radicle
+        mode: '0644'
+
     - name: Create the radicle-node systemd unit file from the template
       template:
         src: ../templates/radicle-node.service.j2
