@@ -34,3 +34,18 @@ services:
       # For ARM-based machine, change the Concourse runtime to "houdini"
       CONCOURSE_WORKER_RUNTIME: "containerd"
       CONCOURSE_ENABLE_REDACT_SECRETS: true
+
+  radicle-ci-broker:
+    image: quay.io/gsaslis/radicle-ci:63fbe29
+    volumes:
+      - /home/radicle/.radicle:/root/.radicle
+      - type: bind
+        source: ${SSH_AUTH_SOCK}
+        target: /run/host-services/ssh-auth.sock
+    environment:
+      CONCOURSE_URL: https://{{ concourse_domain }}
+      CONCOURSE_USER: {{ concourse_user }}
+      CONCOURSE_PASS: {{ concourse_password }}
+      RADICLE_API_URL: https://{{ rad_node_alias }}
+      SSH_AUTH_SOCK: /run/host-services/ssh-auth.sock
+    entrypoint: /usr/local/bin/radicle-ci --concourse-url=https://{{ concourse_domain }} --concourse-user={{ concourse_user }} --concourse-pass='{{ concourse_password }}' --radicle-api-url=https://{{ rad_node_alias }}
