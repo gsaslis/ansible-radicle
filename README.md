@@ -31,6 +31,7 @@ ansible_python_interpreter=/usr/bin/python3
 # secret_vars.yaml
 rad_passphrase: "never_commit_sensitive_values"
 rad_domain: your.radicle.domain.here
+rad_node_alias: your.radicle.domain.here
 concourse_domain: your.concourse.domain.here
 concourse_port: 8080
 concourse_postgres_user: your_db_username
