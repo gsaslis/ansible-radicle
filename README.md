@@ -1,20 +1,23 @@
 # An Ansible Playbook to Deploy Radicle
 
-This directory provides the necessary steps that deploy a Radicle Seed Node (together with its accompanying HTTP API), using Ansible, and running the necessary system services suitable for an "always on" deployment of Radicle.
+This directory provides the necessary steps that deploy a **Public** Radicle Node (together with its accompanying HTTP API), using Ansible, and running the necessary system services suitable for an "always on" deployment of Radicle.
 
 ## Requirements
 
+ 
 1. Setup Ansible on your machine: https://docs.ansible.com/ansible/latest/intro_installation.html 
 1. Install python requirements (consider using bundled `extensions/setup/setup.sh`)
-2. Update roles (consider using `extensions/setup/role_update.sh`)
-3. Create ssh keys for access to your VM
+1. Update roles (consider using `extensions/setup/role_update.sh`)
+1. Create ssh keys for access to your VM
 ```bash
 $ ssh-keygen -t ed25519 -f <path_to_private_key> -N <path_to_public_key>
 ```
-4. Create necessary files: 
+5. Spin up a VM, ensuring you set up SSH access with the key you created above.
+5. If you want a nice domain for your node, now is a good time to add an 'A' record pointing to the static IP of your VM, in your domain's DNS settings.  
+5. With all that in hand, you can now create necessary files: 
 
 ```
-# production.ini
+# <project_path>/production.ini
 radicle1 ansible_ssh_host=$host_or_ip ansible_ssh_port=$ssh_port ansible_ssh_user=$ssh_user ansible_ssh_private_key_file=<path_to_private_key> (from step 3)
 
 [radicle]
@@ -28,7 +31,7 @@ ansible_python_interpreter=/usr/bin/python3
 
 
 ```yaml
-# secret_vars.yaml
+# <project_path>/vars/secret_vars.yaml
 rad_passphrase: "never_commit_sensitive_values"
 rad_domain: your.radicle.domain.here
 rad_node_alias: your.radicle.domain.here
@@ -44,7 +47,7 @@ radicle_node_port: 7777
 radicle_httpd_port: 8888
 # the options to pass to the `radicle-node` binary, to define behaviour of your seed node, e.g.
 radicle_node_options: --force
-ssh_public_key: <the_path_to_the_public_key_that_should_be_added_to_the_authorized_keys_of_the_newly_created_user> # `<path_to_public_key> from step 3
+ssh_public_key: <the_path_to_the_public_key_that_should_be_added_to_the_authorized_keys_of_the_newly_created_user> # `<path_to_public_key> from step 4
 firewall_allowed_tcp_ports:
   - "22" # (ssh port - better use another value) 
   - "7777" # (radicle-node port)
