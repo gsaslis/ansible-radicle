@@ -1,3 +1,44 @@
+- name: Backup Radicle Storage, with today's date
+  hosts: radicle
+  gather_facts: yes
+  become: true
+  vars_files:
+    - ../vars/main.yml
+    - ../vars/secret_vars.yml
+  tasks:
+    - name: Get the list of services
+      service_facts:
+
+    - name: Stop radicle-node service
+      systemd:
+        name: radicle-node
+        state: stopped
+      when: "'radicle-node.service' in services"
+
+    - name: Stop radicle-httpd service
+      systemd:
+        name: radicle-node
+        state: stopped
+      when: "'radicle-httpd.service' in services"
+
+    - name: Create backups directory
+      file:
+        path: /home/radicle/radicle_backups
+        state: directory
+        owner: radicle
+        group: radicle
+        mode: 0755
+
+    - name: Get the current date
+      command: date +"%Y-%m-%d"
+      register: current_date
+
+    - name: Archive the folder with a unique filename
+      community.general.archive:
+        path: /home/radicle/.radicle
+        dest: "/home/radicle/radicle_backups/backup_{{ current_date.stdout }}.tgz"
+        owner: radicle
+        group: radicle
 
 - name: Install radicle
   hosts: radicle
@@ -11,6 +52,8 @@
 
     - name: Install latest radicle binaries
       command: /tmp/radicle_install.sh
+
+
 
 - name: Install radicle services
   hosts: radicle
