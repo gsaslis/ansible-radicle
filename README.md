@@ -55,7 +55,7 @@ firewall_allowed_tcp_ports:
 security_ssh_port: 22 # (ssh port)
 ```
 
-## Run Ansible
+## Install Radicle Services
 
 
 Run the radicle-docker-ansible playbook, like so: 
@@ -66,6 +66,17 @@ ansible-playbook --ask-vault-pass -i ../production.ini 0_setup.yml
 ansible-playbook --ask-vault-pass -i ../production.ini 1_hardening.yml
 ansible-playbook --ask-vault-pass -i ../production.ini 2_radicle.yml
 ```
+
+## Upgrade your Node
+
+The radicle playbook will back up your `.radicle` storage folder and 
+will install the latest binaries available. 
+
+```bash
+cd ansible/plays
+ansible-playbook --ask-vault-pass -i ../production.ini 2_radicle.yml
+```
+
 
 That's it!!   
 
